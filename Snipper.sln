@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31624.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snipper", "Snipper.csproj", "{45BB7598-B317-4768-A348-D57FF4EEBFB7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{45BB7598-B317-4768-A348-D57FF4EEBFB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45BB7598-B317-4768-A348-D57FF4EEBFB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45BB7598-B317-4768-A348-D57FF4EEBFB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45BB7598-B317-4768-A348-D57FF4EEBFB7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8DD55AD6-2228-4FD0-8162-FC93A7A53CD4}
+	EndGlobalSection
+EndGlobal
