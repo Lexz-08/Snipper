@@ -23,6 +23,17 @@ namespace Snipper
 			lblClose.Click += new EventHandler(CloseForm);
 			lblMaximize.Click += new EventHandler(MaximizeForm);
 			lblMinimize.Click += new EventHandler(MinimizeForm);
+
+			Native.HotKeys.RegisterHotKey(Handle, 0, Native.HotKeys.KeyModifiers.Alt, Keys.X); // point 1 of snapshot
+			Native.HotKeys.RegisterHotKey(Handle, 1, Native.HotKeys.KeyModifiers.Alt, Keys.Y); // point 2 of snapshot
+			Native.HotKeys.RegisterHotKey(Handle, 2, Native.HotKeys.KeyModifiers.Alt, Keys.S); // automatically snapshot screen
+
+			FormClosing += (s, e) =>
+			{
+				Native.HotKeys.UnregisterHotKey(Handle, 0);
+				Native.HotKeys.UnregisterHotKey(Handle, 1);
+				Native.HotKeys.UnregisterHotKey(Handle, 2);
+			};
 		}
 
 		#region Window Functionality
@@ -35,6 +46,25 @@ namespace Snipper
 			private static extern int SendMessage(IntPtr HWnd, int Msg, int WParam, int LParam);
 
 			public static int SendMessage(IntPtr HWnd, int Msg, int WParam) => SendMessage(HWnd, Msg, WParam, 0);
+
+			public struct HotKeys
+			{
+				[DllImport("user32.dll")]
+				public static extern bool RegisterHotKey(IntPtr HWnd, int ID, KeyModifiers FSModifiers, Keys VK);
+
+				[DllImport("user32.dll")]
+				public static extern bool UnregisterHotKey(IntPtr HWnd, int ID);
+
+				[Flags]
+				public enum KeyModifiers
+				{
+					None = 0,
+					Alt = 1,
+					Control = 2,
+					Shift = 4,
+					Windows = 8,
+				}
+			}
 		}
 
 		/// <summary>
@@ -176,6 +206,40 @@ namespace Snipper
 				{
 					case FormWindowState.Maximized: lblMaximize.Text = "2"; break;
 					case FormWindowState.Normal: lblMaximize.Text = "1"; break;
+				}
+			}
+			catch { return; }
+
+			try
+			{
+				if (m.Msg == 0x0312)
+				{
+					switch ((int)m.WParam)
+					{
+						case 0:
+							{
+								decimal x = Cursor.Position.X;
+								decimal y = Cursor.Position.Y;
+
+								numXLocation.Value = x;
+								numYLocation.Value = y;
+							}
+							break;
+						case 1:
+							{
+								decimal w = Cursor.Position.X - numXLocation.Value;
+								decimal h = Cursor.Position.Y - numYLocation.Value;
+
+								numWidth.Value = w;
+								numHeight.Value = h;
+							}
+							break;
+						case 2:
+							{
+								TakeSnapshot(this, null);
+							}
+							break;
+					}
 				}
 			}
 			catch { return; }
